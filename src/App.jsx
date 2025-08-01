@@ -720,7 +720,7 @@ const TaxRevenueDashboard = () => {
                 <div className="mb-6 md:mb-8 text-center">
                     <div className="inline-flex items-center justify-center h-32 w-64">
                         {/* <BarChart3 className="h-8 w-8 text-white" /> */}
-                        <img src="./logo.png" alt="" />
+                        <img src="./src/assets/logo.png" alt="" />
                     </div>
                     {/* <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-orange-800 mb-4 leading-tight">
             Dashboard Pendapatan Pajak BAPENDA
