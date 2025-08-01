@@ -11,12 +11,13 @@ import {
     Legend,
     ResponsiveContainer,
     LabelList,
+    ComposedChart,
 } from "recharts"
 import { TrendingUp, DollarSign, Calendar, BarChart3 } from "lucide-react"
 
 const TaxRevenueDashboard = () => {
     const [selectedChart, setSelectedChart] = useState("line")
-    const [selectedMetric, setSelectedMetric] = useState("total")
+    const [selectedMetric, setSelectedMetric] = useState("PENDAPATAN PAD")
 
     // Raw data from the table
     const rawData = [
@@ -26,117 +27,117 @@ const TaxRevenueDashboard = () => {
             2021: 136116512374.23,
             2022: 129154937419.75,
             2023: 146699501670.14,
-            2024: 441709437495.0,
-            2025: 144711552198.0,
+            2024: 441709437495,
+            2025: 144711552198,
         },
         {
             category: "PENDAPATAN PAJAK",
             2020: 41280421942.33,
-            2021: 56732890386.4,
-            2022: 64719735156.35,
-            2023: 69895966472.0,
-            2024: 68421168580.0,
-            2025: 58915517679.0,
+            2021: 56732890308.4,
+            2022: 64719735158.35,
+            2023: 69895966472,
+            2024: 68421168580,
+            2025: 58915517679,
         },
         {
             category: "Pajak Reklame",
-            2020: 1254868951.0,
-            2021: 1814954290.0,
-            2022: 1993626930.0,
-            2023: 1913609555.0,
-            2024: 2156625340.0,
-            2025: 556673737.0,
+            2020: 1294868951,
+            2021: 1814954409,
+            2022: 1919828959,
+            2023: 1913609655,
+            2024: 2156625140,
+            2025: 556673737,
         },
         {
             category: "Pajak Air Tanah",
-            2020: 843121774.0,
-            2021: 841279881.0,
-            2022: 1012700833.0,
-            2023: 835997454.0,
-            2024: 697867198.0,
-            2025: 521293734.0,
+            2020: 843121774,
+            2021: 841279881,
+            2022: 1012700833,
+            2023: 835997454,
+            2024: 697867198,
+            2025: 521293734,
         },
         {
             category: "Pajak Sarang Burung Walet",
-            2020: 69379500.0,
-            2021: 68385000.0,
-            2022: 52780000.0,
-            2023: 64125000.0,
-            2024: 129781500.0,
-            2025: 26985000.0,
+            2020: 69379500,
+            2021: 68285000,
+            2022: 52792000,
+            2023: 64125000,
+            2024: 129781500,
+            2025: 26985000,
         },
         {
             category: "Pajak Mineral Bukan Logam dan Batuan Lainnya",
-            2020: 3195000.0,
-            2021: 284510920.0,
-            2022: 1159335420.0,
-            2023: 697370281.0,
-            2024: 1675660506.0,
-            2025: 1078737000.0,
+            2020: 9195000,
+            2021: 284510920,
+            2022: 1159335420,
+            2023: 697370281,
+            2024: 1675660506,
+            2025: 1078737000,
         },
         {
             category:
                 "Pajak Bumi Dan Bangunan Perdesaan dan Perkotaan (PBB-P2)",
-            2020: 4397893677.0,
-            2021: 4697260236.0,
-            2022: 7186195995.0,
-            2023: 8713053509.0,
-            2024: 9127424031.0,
-            2025: 2485415265.0,
+            2020: 4597893677,
+            2021: 4697260236,
+            2022: 7186195995,
+            2023: 8713053509,
+            2024: 9127424031,
+            2025: 2485415265,
         },
         {
             category: "Pajak Bea Perolehan Hak Atas Tanah dan Bangunan / BPHTB",
-            2020: 2276973772.0,
-            2021: 3799354646.0,
-            2022: 10858456459.0,
-            2023: 12520343893.0,
-            2024: 3790939396.0,
-            2025: 2768738723.0,
+            2020: 2276973772,
+            2021: 3799354646,
+            2022: 10858456459,
+            2023: 12520343893,
+            2024: 3790939396,
+            2025: 2768738723,
         },
         {
             category: "PBJT Makan atau minum",
             2020: 4506757184.05,
-            2021: 4050510061.0,
-            2022: 6285602900.0,
-            2023: 5200103304.0,
-            2024: 6576426115.0,
-            2025: 1942792277.0,
+            2021: 4050510061,
+            2022: 6285602900,
+            2023: 5200103304,
+            2024: 6576426115,
+            2025: 1942792277,
         },
         {
             category: "PBJT Tenaga Listrik",
             2020: 26345662127.28,
-            2021: 35892201889.4,
+            2021: 39892201889.4,
             2022: 33470304870.35,
-            2023: 36631115716.0,
-            2024: 40332216576.0,
-            2025: 49830150749.0,
+            2023: 36631115716,
+            2024: 40352216576,
+            2025: 19830150749,
         },
         {
             category: "PBJT Perhotelan",
-            2020: 992173747.0,
-            2021: 842545295.0,
-            2022: 1310443617.0,
-            2023: 1398745560.0,
-            2024: 1758307990.0,
-            2025: 798610067.0,
+            2020: 992173747,
+            2021: 842545295,
+            2022: 1310443617,
+            2023: 1398745560,
+            2024: 1758307990,
+            2025: 799610067,
         },
         {
             category: "PBJT Parkir",
-            2020: 89535600.0,
-            2021: 197236277.0,
-            2022: 830943304.0,
-            2023: 1144664074.0,
-            2024: 851383864.0,
-            2025: 388933034.0,
+            2020: 89535600,
+            2021: 197236277,
+            2022: 830943304,
+            2023: 1144664074,
+            2024: 851883864,
+            2025: 388933034,
         },
         {
             category: "PBJT Kesenian dan Hiburan",
-            2020: 594860609.0,
-            2021: 244751694.0,
-            2022: 633130801.0,
-            2023: 776863026.0,
-            2024: 1304036264.0,
-            2025: 681924108.0,
+            2020: 254860610,
+            2021: 244751694,
+            2022: 633130801,
+            2023: 776838026,
+            2024: 1304036264,
+            2025: 681924108,
         },
         {
             category: "Opsen Pajak Kendaraan Bermotor (PKB)",
@@ -145,7 +146,7 @@ const TaxRevenueDashboard = () => {
             2022: 0,
             2023: 0,
             2024: 0,
-            2025: 15289672000.0,
+            2025: 15289672000,
         },
         {
             category: "Opsen Bea Balik Nama Kendaraan Bermotor (BBNKB)",
@@ -154,7 +155,7 @@ const TaxRevenueDashboard = () => {
             2022: 0,
             2023: 0,
             2024: 0,
-            2025: 12544591985.0,
+            2025: 12544591985,
         },
     ]
 
@@ -187,11 +188,10 @@ const TaxRevenueDashboard = () => {
 
     // Get filtered data based on selected metric
     const getFilteredData = () => {
-        if (selectedMetric === "total") return totalData
-
         return chartData.map((item) => ({
             year: item.year,
             [selectedMetric]: item[selectedMetric],
+            [`${selectedMetric}_bar`]: item[selectedMetric], // Duplicate data with different key for bar
         }))
     }
 
@@ -246,8 +246,8 @@ const TaxRevenueDashboard = () => {
         const labelY = y - 50
         const labelX = x + width / 2
         const formattedValue = formatCurrencyForLabel(value)
-        const textWidth = formattedValue.length * 4.5
-        const rectWidth = Math.max(80, textWidth + 10)
+        const textWidth = formattedValue.length * 5.5
+        const rectWidth = Math.max(100, textWidth + 15)
 
         // Get percentage change for bar chart
         let percentageChange = null
@@ -257,26 +257,11 @@ const TaxRevenueDashboard = () => {
             const previousData = filteredData[index - 1]
 
             // For single metric display, use the selected metric
-            if (selectedMetric === "total") {
-                percentageChange = calculatePercentageChange(
-                    currentData.total,
-                    previousData.total
-                )
-            } else if (selectedMetric !== "all") {
+            if (selectedMetric) {
                 percentageChange = calculatePercentageChange(
                     currentData[selectedMetric],
                     previousData[selectedMetric]
                 )
-            }
-            // For "all" display, we'll show the first category's percentage as example
-            else {
-                const firstCategory = rawData[0].category
-                if (currentData[firstCategory] && previousData[firstCategory]) {
-                    percentageChange = calculatePercentageChange(
-                        currentData[firstCategory],
-                        previousData[firstCategory]
-                    )
-                }
             }
         }
 
@@ -286,7 +271,7 @@ const TaxRevenueDashboard = () => {
                     x={labelX - rectWidth / 2}
                     y={labelY}
                     width={rectWidth}
-                    height={percentageChange !== null ? 30 : 18}
+                    height={percentageChange !== null ? 35 : 22}
                     fill="#fff7ed"
                     stroke="#f97316"
                     strokeWidth={1}
@@ -296,11 +281,11 @@ const TaxRevenueDashboard = () => {
                 />
                 <text
                     x={labelX}
-                    y={labelY + (percentageChange !== null ? 9 : 12)}
+                    y={labelY + (percentageChange !== null ? 11 : 14)}
                     fill="#9a3412"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="8"
+                    fontSize="12"
                     fontWeight="bold"
                 >
                     {formattedValue}
@@ -308,11 +293,11 @@ const TaxRevenueDashboard = () => {
                 {percentageChange !== null && (
                     <text
                         x={labelX}
-                        y={labelY + 22}
+                        y={labelY + 26}
                         fill={percentageChange >= 0 ? "#16a34a" : "#dc2626"}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fontSize="7"
+                        fontSize="11"
                         fontWeight="bold"
                     >
                         {percentageChange >= 0 ? "↗" : "↘"}{" "}
@@ -337,8 +322,8 @@ const TaxRevenueDashboard = () => {
         const labelY = y - 40
         const labelX = x
         const formattedValue = formatCurrencyForLabel(value)
-        const textWidth = formattedValue.length * 4.5
-        const rectWidth = Math.max(80, textWidth + 10)
+        const textWidth = formattedValue.length * 5.5
+        const rectWidth = Math.max(100, textWidth + 15)
 
         // Get percentage change
         let percentageChange = null
@@ -360,7 +345,7 @@ const TaxRevenueDashboard = () => {
                     x={labelX - rectWidth / 2}
                     y={labelY}
                     width={rectWidth}
-                    height={percentageChange !== null ? 30 : 18}
+                    height={percentageChange !== null ? 35 : 22}
                     fill="#fff7ed"
                     stroke="#f97316"
                     strokeWidth={1}
@@ -370,11 +355,11 @@ const TaxRevenueDashboard = () => {
                 />
                 <text
                     x={labelX}
-                    y={labelY + (percentageChange !== null ? 9 : 12)}
+                    y={labelY + (percentageChange !== null ? 11 : 14)}
                     fill="#9a3412"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="8"
+                    fontSize="12"
                     fontWeight="bold"
                 >
                     {formattedValue}
@@ -382,11 +367,11 @@ const TaxRevenueDashboard = () => {
                 {percentageChange !== null && (
                     <text
                         x={labelX}
-                        y={labelY + 22}
+                        y={labelY + 26}
                         fill={percentageChange >= 0 ? "#16a34a" : "#dc2626"}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fontSize="7"
+                        fontSize="11"
                         fontWeight="bold"
                     >
                         {percentageChange >= 0 ? "↗" : "↘"}{" "}
@@ -403,8 +388,8 @@ const TaxRevenueDashboard = () => {
         if (!value) return null
 
         const formattedValue = formatCurrencyForLabel(value)
-        const textWidth = formattedValue.length * 4.5
-        const rectWidth = Math.max(80, textWidth + 10)
+        const textWidth = formattedValue.length * 5.5
+        const rectWidth = Math.max(100, textWidth + 15)
 
         // Get percentage change
         let percentageChange = null
@@ -431,9 +416,9 @@ const TaxRevenueDashboard = () => {
                 />
                 <rect
                     x={cx - rectWidth / 2}
-                    y={cy - (percentageChange !== null ? 45 : 30)}
+                    y={cy - (percentageChange !== null ? 50 : 33)}
                     width={rectWidth}
-                    height={percentageChange !== null ? 30 : 18}
+                    height={percentageChange !== null ? 35 : 22}
                     fill="#fff7ed"
                     stroke="#f97316"
                     strokeWidth={1}
@@ -443,11 +428,11 @@ const TaxRevenueDashboard = () => {
                 />
                 <text
                     x={cx}
-                    y={cy - (percentageChange !== null ? 33 : 18)}
+                    y={cy - (percentageChange !== null ? 36 : 20)}
                     fill="#9a3412"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fontSize="8"
+                    fontSize="12"
                     fontWeight="bold"
                 >
                     {formattedValue}
@@ -455,11 +440,11 @@ const TaxRevenueDashboard = () => {
                 {percentageChange !== null && (
                     <text
                         x={cx}
-                        y={cy - 20}
+                        y={cy - 22}
                         fill={percentageChange >= 0 ? "#16a34a" : "#dc2626"}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        fontSize="7"
+                        fontSize="11"
                         fontWeight="bold"
                     >
                         {percentageChange >= 0 ? "↗" : "↘"}{" "}
@@ -477,10 +462,22 @@ const TaxRevenueDashboard = () => {
         return [value, name]
     }
 
+    // Custom formatter for composed chart to avoid duplicate data
+    const formatComposedTooltipValue = (value, name, props) => {
+        // Only show data for the line, hide bar data
+        if (name.includes("_bar")) {
+            return [null, null] // Hide bar data from tooltip
+        }
+        if (typeof value === "number") {
+            return [formatCurrency(value), selectedMetric]
+        }
+        return [value, selectedMetric]
+    }
+
     const renderChart = () => {
         const commonProps = {
             data: filteredData,
-            margin: { top: 70, right: 30, left: 20, bottom: 60 },
+            margin: { top: 70, right: 80, left: 20, bottom: 60 },
         }
 
         switch (selectedChart) {
@@ -488,6 +485,155 @@ const TaxRevenueDashboard = () => {
                 return (
                     <LineChart {...commonProps}>
                         <defs>
+                            <linearGradient
+                                id="gridGradient"
+                                x1="0"
+                                y1="0"
+                                x2="1"
+                                y2="1"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#f97316"
+                                    stopOpacity={0.1}
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#ea580c"
+                                    stopOpacity={0.05}
+                                />
+                            </linearGradient>
+                        </defs>
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#fed7aa"
+                            strokeOpacity={0.3}
+                        />
+                        <XAxis
+                            dataKey="year"
+                            tick={{
+                                fill: "#9a3412",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                            axisLine={{ stroke: "#f97316" }}
+                        />
+                        <YAxis
+                            label={{
+                                value: "Miliar IDR",
+                                angle: -90,
+                                position: "insideLeft",
+                                style: {
+                                    textAnchor: "middle",
+                                    fill: "#9a3412",
+                                    fontWeight: 500,
+                                },
+                            }}
+                            tick={{ fill: "#9a3412", fontSize: 12 }}
+                            axisLine={{ stroke: "#f97316" }}
+                        />
+                        <Tooltip
+                            formatter={formatComposedTooltipValue}
+                            contentStyle={{
+                                backgroundColor: "#fff7ed",
+                                border: "2px solid #f97316",
+                                borderRadius: "12px",
+                                boxShadow:
+                                    "0 10px 25px rgba(249, 115, 22, 0.15)",
+                            }}
+                        />
+                        <Legend />
+                        <Line
+                            type="monotone"
+                            dataKey={selectedMetric}
+                            stroke="#ea580c"
+                            strokeWidth={4}
+                            dot={<CustomDot />}
+                        />
+                    </LineChart>
+                )
+
+            case "bar":
+                return (
+                    <BarChart {...commonProps}>
+                        <defs>
+                            <linearGradient
+                                id="barGradient"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop offset="0%" stopColor="#f97316" />
+                                <stop offset="100%" stopColor="#ea580c" />
+                            </linearGradient>
+                        </defs>
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#fed7aa"
+                            strokeOpacity={0.3}
+                        />
+                        <XAxis
+                            dataKey="year"
+                            tick={{
+                                fill: "#9a3412",
+                                fontSize: 12,
+                                fontWeight: 500,
+                            }}
+                            axisLine={{ stroke: "#f97316" }}
+                        />
+                        <YAxis
+                            label={{
+                                value: "Miliar IDR",
+                                angle: -90,
+                                position: "insideLeft",
+                                style: {
+                                    textAnchor: "middle",
+                                    fill: "#9a3412",
+                                    fontWeight: 500,
+                                },
+                            }}
+                            tick={{ fill: "#9a3412", fontSize: 12 }}
+                            axisLine={{ stroke: "#f97316" }}
+                        />
+                        <Tooltip
+                            formatter={formatTooltipValue}
+                            contentStyle={{
+                                backgroundColor: "#fff7ed",
+                                border: "2px solid #f97316",
+                                borderRadius: "12px",
+                                boxShadow:
+                                    "0 10px 25px rgba(249, 115, 22, 0.15)",
+                            }}
+                        />
+                        <Legend />
+                        <Bar
+                            dataKey={selectedMetric}
+                            fill="url(#barGradient)"
+                            radius={[4, 4, 0, 0]}
+                        >
+                            <LabelList
+                                dataKey={selectedMetric}
+                                content={CustomBarLabel}
+                            />
+                        </Bar>
+                    </BarChart>
+                )
+
+            case "composed":
+                return (
+                    <ComposedChart {...commonProps}>
+                        <defs>
+                            <linearGradient
+                                id="barGradient"
+                                x1="0"
+                                y1="0"
+                                x2="0"
+                                y2="1"
+                            >
+                                <stop offset="0%" stopColor="#f97316" />
+                                <stop offset="100%" stopColor="#ea580c" />
+                            </linearGradient>
                             <linearGradient
                                 id="gridGradient"
                                 x1="0"
@@ -546,104 +692,20 @@ const TaxRevenueDashboard = () => {
                             }}
                         />
                         <Legend />
-                        {selectedMetric === "total" ? (
-                            <Line
-                                type="monotone"
-                                dataKey="total"
-                                stroke="#ea580c"
-                                strokeWidth={4}
-                                dot={<CustomDot />}
-                            />
-                        ) : (
-                            <Line
-                                type="monotone"
-                                dataKey={selectedMetric}
-                                stroke="#ea580c"
-                                strokeWidth={4}
-                                dot={<CustomDot />}
-                            />
-                        )}
-                    </LineChart>
-                )
-
-            case "bar":
-                return (
-                    <BarChart {...commonProps}>
-                        <defs>
-                            <linearGradient
-                                id="barGradient"
-                                x1="0"
-                                y1="0"
-                                x2="0"
-                                y2="1"
-                            >
-                                <stop offset="0%" stopColor="#f97316" />
-                                <stop offset="100%" stopColor="#ea580c" />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid
-                            strokeDasharray="3 3"
-                            stroke="#fed7aa"
-                            strokeOpacity={0.3}
+                        <Bar
+                            dataKey={`${selectedMetric}`}
+                            fill="url(#barGradient)"
+                            radius={[4, 4, 0, 0]}
+                            fillOpacity={0.7}
                         />
-                        <XAxis
-                            dataKey="year"
-                            tick={{
-                                fill: "#9a3412",
-                                fontSize: 12,
-                                fontWeight: 500,
-                            }}
-                            axisLine={{ stroke: "#f97316" }}
+                        <Line
+                            type="monotone"
+                            dataKey={selectedMetric}
+                            stroke="#dc2626"
+                            strokeWidth={4}
+                            dot={<CustomDot />}
                         />
-                        <YAxis
-                            label={{
-                                value: "Miliar IDR",
-                                angle: -90,
-                                position: "insideLeft",
-                                style: {
-                                    textAnchor: "middle",
-                                    fill: "#9a3412",
-                                    fontWeight: 500,
-                                },
-                            }}
-                            tick={{ fill: "#9a3412", fontSize: 12 }}
-                            axisLine={{ stroke: "#f97316" }}
-                        />
-                        <Tooltip
-                            formatter={formatTooltipValue}
-                            contentStyle={{
-                                backgroundColor: "#fff7ed",
-                                border: "2px solid #f97316",
-                                borderRadius: "12px",
-                                boxShadow:
-                                    "0 10px 25px rgba(249, 115, 22, 0.15)",
-                            }}
-                        />
-                        <Legend />
-                        {selectedMetric === "total" ? (
-                            <Bar
-                                dataKey="total"
-                                fill="url(#barGradient)"
-                                radius={[4, 4, 0, 0]}
-                            >
-                                <LabelList
-                                    dataKey="total"
-                                    content={CustomBarLabel}
-                                />
-                            </Bar>
-                        ) : (
-                            <Bar
-                                dataKey={selectedMetric}
-                                fill="url(#barGradient)"
-                                radius={[4, 4, 0, 0]}
-                            >
-                                <LabelList
-                                    dataKey={selectedMetric}
-                                    content={CustomBarLabel}
-                                />
-                            </Bar>
-                        )}
-                    </BarChart>
+                    </ComposedChart>
                 )
 
             default:
@@ -656,14 +718,16 @@ const TaxRevenueDashboard = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6 md:mb-8 text-center">
-                    <div className="inline-flex items-center justify-center w-64 h-32">
-                        <img src="./logo.png" alt="" />
+                    <div className="inline-flex items-center justify-center h-32 w-64">
                         {/* <BarChart3 className="h-8 w-8 text-white" /> */}
+                        <img src="./logo.png" alt="" />
                     </div>
-
+                    {/* <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-orange-800 mb-4 leading-tight">
+            Dashboard Pendapatan Pajak BAPENDA
+          </h1> */}
                     <p className="text-sm font-bold md:text-lg text-orange-700 max-w-2xl mx-auto leading-relaxed">
-                        Visualisasi interaktif data pendapatan pajak dari tahun
-                        2020-2025.
+                        Visualisasi Grafik Pendapatan Pajak Badan Pendapatan
+                        Daerah Rokan Hilir Tahun 2020-2025.
                     </p>
                 </div>
 
@@ -701,6 +765,9 @@ const TaxRevenueDashboard = () => {
                             >
                                 <option value="line">📈 Grafik Garis</option>
                                 <option value="bar">📊 Grafik Batang</option>
+                                <option value="composed">
+                                    📈📊 Grafik Gabungan
+                                </option>
                             </select>
                         </div>
 
@@ -733,10 +800,10 @@ const TaxRevenueDashboard = () => {
                                     (e.target.style.borderColor = "#fed7aa")
                                 }
                             >
-                                <option value="total">
-                                    💰 Total Pendapatan
+                                <option value="PENDAPATAN PAD">
+                                    💰 PENDAPATAN PAD
                                 </option>
-                                {rawData.map((item) => (
+                                {rawData.slice(1).map((item) => (
                                     <option
                                         key={item.category}
                                         value={item.category}
@@ -754,11 +821,7 @@ const TaxRevenueDashboard = () => {
                     <div className="flex items-center mb-6">
                         <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full mr-4"></div>
                         <h2 className="text-xl md:text-3xl font-bold text-orange-800">
-                            Tren Pendapatan (
-                            {selectedMetric === "total"
-                                ? "Total Pendapatan"
-                                : selectedMetric}
-                            )
+                            Tren Pendapatan ({selectedMetric})
                         </h2>
                     </div>
                     <div className="h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] rounded-xl overflow-hidden">
@@ -837,7 +900,7 @@ const TaxRevenueDashboard = () => {
                 {/* Footer */}
                 <div className="mt-8 text-center">
                     <p className="text-orange-600 text-sm">
-                        © 2024 Dashboard Pendapatan Pajak Indonesia
+                        © 2025 Badan Pendapatan Daerah Kab. Rokan Hilir
                     </p>
                 </div>
             </div>
