@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react"
+import { Analytics } from "@vercel/analytics/react"
 import {
     BarChart,
     Bar,
@@ -905,6 +906,7 @@ const TaxRevenueDashboard = () => {
                     </p>
                 </div>
             </div>
+            <Analytics />
         </div>
     )
 }
