@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { Analytics } from "@vercel/analytics/react"
 import {
     BarChart,
@@ -14,12 +14,80 @@ import {
     LabelList,
     ComposedChart,
 } from "recharts"
-import { TrendingUp, DollarSign, Calendar, BarChart3 } from "lucide-react"
+import { TrendingUp, DollarSign, Calendar, BarChart3, Lock } from "lucide-react"
 import LogoImage from "./assets/Logo.png"
 
-const TaxRevenueDashboard = () => {
+const AuthScreen = ({ onAuthenticate }) => {
+    const [pin, setPin] = useState("")
+    const [error, setError] = useState("")
+    const correctPin = "20202025" // Ganti dengan PIN yang diinginkan
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (pin === correctPin) {
+            localStorage.setItem("authenticated", "true")
+            onAuthenticate(true)
+        } else {
+            setError("PIN tidak valid. Silakan coba lagi.")
+            setTimeout(() => setError(""), 3000)
+        }
+    }
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center p-4">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-orange-200 p-8 w-full max-w-md hover:shadow-3xl transition-all duration-300">
+                <div className="text-center mb-6">
+                    <div className="inline-flex items-center justify-center h-24 w-48 mb-4">
+                        <img src={LogoImage} alt="Logo" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-orange-800 mb-2">
+                        Autentikasi Diperlukan
+                    </h1>
+                    <p className="text-sm text-orange-700">
+                        Masukkan PIN untuk mengakses dashboard
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-6">
+                        <div className="flex items-center border-2 border-orange-200 rounded-xl p-3 focus-within:border-orange-500 transition-all duration-200">
+                            <Lock className="h-5 w-5 text-orange-500 mr-3" />
+                            <input
+                                type="password"
+                                value={pin}
+                                onChange={(e) => setPin(e.target.value)}
+                                placeholder="Masukkan PIN"
+                                className="flex-1 outline-none bg-transparent text-orange-800 placeholder-orange-300"
+                                maxLength={10}
+                                required
+                            />
+                        </div>
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">{error}</p>
+                        )}
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold py-3 px-4 rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                    >
+                        Masuk
+                    </button>
+                </form>
+            </div>
+        </div>
+    )
+}
+
+const TaxRevenueDashboard = ({ onLogout }) => {
     const [selectedChart, setSelectedChart] = useState("line")
     const [selectedMetric, setSelectedMetric] = useState("PENDAPATAN PAD")
+
+    const handleLogout = () => {
+        localStorage.removeItem("authenticated")
+        localStorage.removeItem("loginTime")
+        if (onLogout) onLogout(false)
+    }
 
     // Raw data from the table
     const rawData = [
@@ -719,18 +787,27 @@ const TaxRevenueDashboard = () => {
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 p-3 md:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="mb-6 md:mb-8 text-center">
-                    <div className="inline-flex items-center justify-center h-32 w-64">
-                        {/* <BarChart3 className="h-8 w-8 text-white" /> */}
-                        <img src={LogoImage} alt="Logo" />
+                <div className="mb-6 md:mb-8 relative">
+                    <div className="text-center">
+                        <div className="inline-flex items-center justify-center h-32 w-64">
+                            {/* <BarChart3 className="h-8 w-8 text-white" /> */}
+                            <img src={LogoImage} alt="Logo" />
+                        </div>
+                        {/* <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-orange-800 mb-4 leading-tight">
+                Dashboard Pendapatan Pajak BAPENDA
+              </h1> */}
+                        <p className="text-sm font-bold md:text-lg text-orange-700 max-w-2xl mx-auto leading-relaxed">
+                            Visualisasi Grafik Pendapatan Pajak Badan Pendapatan
+                            Daerah Rokan Hilir Tahun 2020-2025.
+                        </p>
                     </div>
-                    {/* <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-orange-800 mb-4 leading-tight">
-            Dashboard Pendapatan Pajak BAPENDA
-          </h1> */}
-                    <p className="text-sm font-bold md:text-lg text-orange-700 max-w-2xl mx-auto leading-relaxed">
-                        Visualisasi Grafik Pendapatan Pajak Badan Pendapatan
-                        Daerah Rokan Hilir Tahun 2020-2025.
-                    </p>
+                    <button
+                        onClick={handleLogout}
+                        className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-medium py-2 px-4 rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-md hover:shadow-lg flex items-center"
+                    >
+                        <Lock className="h-4 w-4 mr-2" />
+                        Keluar
+                    </button>
                 </div>
 
                 {/* Controls */}
@@ -911,4 +988,105 @@ const TaxRevenueDashboard = () => {
     )
 }
 
-export default TaxRevenueDashboard
+const App = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const SESSION_TIMEOUT = 30 * 60 * 1000 // 30 menit dalam milidetik
+
+    // Fungsi untuk mengatur timeout otomatis
+    const setupSessionTimeout = () => {
+        // Simpan waktu login saat ini
+        const loginTime = new Date().getTime()
+        localStorage.setItem("loginTime", loginTime.toString())
+
+        // Atur timer untuk logout otomatis
+        const timeoutId = setTimeout(() => {
+            handleSessionTimeout()
+        }, SESSION_TIMEOUT)
+
+        // Simpan ID timer untuk dibersihkan nanti jika diperlukan
+        return timeoutId
+    }
+
+    // Fungsi untuk menangani timeout sesi
+    const handleSessionTimeout = () => {
+        localStorage.removeItem("authenticated")
+        localStorage.removeItem("loginTime")
+        setIsAuthenticated(false)
+        alert("Sesi Anda telah berakhir. Silakan login kembali.")
+    }
+
+    // Fungsi untuk memeriksa apakah sesi masih valid
+    const checkSessionValidity = () => {
+        const loginTime = localStorage.getItem("loginTime")
+        if (loginTime) {
+            const currentTime = new Date().getTime()
+            const elapsedTime = currentTime - parseInt(loginTime)
+
+            if (elapsedTime > SESSION_TIMEOUT) {
+                handleSessionTimeout()
+                return false
+            }
+            return true
+        }
+        return false
+    }
+
+    // Fungsi untuk menangani autentikasi
+    const handleAuthenticate = (status) => {
+        setIsAuthenticated(status)
+        if (status) {
+            setupSessionTimeout()
+        }
+    }
+
+    useEffect(() => {
+        // Cek apakah pengguna sudah terotentikasi sebelumnya
+        const authStatus = localStorage.getItem("authenticated")
+
+        if (authStatus === "true" && checkSessionValidity()) {
+            setIsAuthenticated(true)
+
+            // Reset timer saat halaman dimuat ulang
+            const timeoutId = setupSessionTimeout()
+
+            // Bersihkan timer saat komponen unmount
+            return () => clearTimeout(timeoutId)
+        }
+    }, [])
+
+    // Tambahkan event listener untuk aktivitas pengguna
+    useEffect(() => {
+        if (isAuthenticated) {
+            // Fungsi untuk mereset timer saat ada aktivitas
+            const resetTimer = () => {
+                if (checkSessionValidity()) {
+                    // Update waktu login
+                    const loginTime = new Date().getTime()
+                    localStorage.setItem("loginTime", loginTime.toString())
+                }
+            }
+
+            // Tambahkan event listener untuk berbagai aktivitas pengguna
+            window.addEventListener("mousemove", resetTimer)
+            window.addEventListener("keypress", resetTimer)
+            window.addEventListener("click", resetTimer)
+            window.addEventListener("scroll", resetTimer)
+
+            // Bersihkan event listener saat komponen unmount
+            return () => {
+                window.removeEventListener("mousemove", resetTimer)
+                window.removeEventListener("keypress", resetTimer)
+                window.removeEventListener("click", resetTimer)
+                window.removeEventListener("scroll", resetTimer)
+            }
+        }
+    }, [isAuthenticated])
+
+    return isAuthenticated ? (
+        <TaxRevenueDashboard onLogout={setIsAuthenticated} />
+    ) : (
+        <AuthScreen onAuthenticate={handleAuthenticate} />
+    )
+}
+
+export default App
