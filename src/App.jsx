@@ -82,6 +82,7 @@ const AuthScreen = ({ onAuthenticate }) => {
 const TaxRevenueDashboard = ({ onLogout }) => {
     const [selectedChart, setSelectedChart] = useState("line")
     const [selectedMetric, setSelectedMetric] = useState("PENDAPATAN PAD")
+    const [showTargetChart, setShowTargetChart] = useState(true)
 
     const handleLogout = () => {
         localStorage.removeItem("authenticated")
@@ -229,6 +230,146 @@ const TaxRevenueDashboard = ({ onLogout }) => {
         },
     ]
 
+    // Target data for each year
+    const targetData = [
+        {
+            category: "PENDAPATAN PAD",
+            2020: 122137870259,
+            2021: 144573706721,
+            2022: 194854000000,
+            2023: 203034060000,
+            2024: 515551776913,
+            2025: 338766400466,
+        },
+        {
+            category: "PENDAPATAN PAJAK",
+            2020: 42660000000,
+            2021: 56610000000,
+            2022: 92410000000,
+            2023: 93510000000,
+            2024: 93510000000,
+            2025: 150451988432,
+        },
+        {
+            category: "Pajak Reklame",
+            2020: 1000000000,
+            2021: 1250000000,
+            2022: 2000000000,
+            2023: 2000000000,
+            2024: 1913609655,
+            2025: 1913609655,
+        },
+        {
+            category: "Pajak Air Tanah",
+            2020: 700000000,
+            2021: 1100000000,
+            2022: 24000000000,
+            2023: 16640000000,
+            2024: 16640000000,
+            2025: 16640000000,
+        },
+        {
+            category: "Pajak Sarang Burung Walet",
+            2020: 75000000,
+            2021: 75000000,
+            2022: 500000000,
+            2023: 1000000000,
+            2024: 400000000,
+            2025: 400000000,
+        },
+        {
+            category: "Pajak Mineral Bukan Logam dan Batuan Lainnya",
+            2020: 150000000,
+            2021: 250000000,
+            2022: 1200000000,
+            2023: 1500000000,
+            2024: 1500000000,
+            2025: 1500000000,
+        },
+        {
+            category:
+                "Pajak Bumi Dan Bangunan Perdesaan dan Perkotaan (PBB-P2)",
+            2020: 8000000000,
+            2021: 13555000000,
+            2022: 16785000000,
+            2023: 16785000000,
+            2024: 9564575588,
+            2025: 10564575588,
+        },
+        {
+            category: "Pajak Bea Perolehan Hak Atas Tanah dan Bangunan / BPHTB",
+            2020: 2000000000,
+            2021: 4600000000,
+            2022: 8100000000,
+            2023: 15000000000,
+            2024: 15000000000,
+            2025: 7000000000,
+        },
+        {
+            category: "PBJT Makan atau minum",
+            2020: 2725000000,
+            2021: 3295000000,
+            2022: 4325000000,
+            2023: 4500000000,
+            2024: 5400000000,
+            2025: 5400000000,
+        },
+        {
+            category: "PBJT Tenaga Listrik",
+            2020: 27000000000,
+            2021: 31000000000,
+            2022: 33000000000,
+            2023: 33000000000,
+            2024: 39451955582,
+            2025: 39451955582,
+        },
+        {
+            category: "PBJT Perhotelan",
+            2020: 760000000,
+            2021: 1060000000,
+            2022: 1200000000,
+            2023: 1085000000,
+            2024: 1611500000,
+            2025: 1611500000,
+        },
+        {
+            category: "PBJT Parkir",
+            2020: 100000000,
+            2021: 175000000,
+            2022: 600000000,
+            2023: 1000000000,
+            2024: 800000000,
+            2025: 800000000,
+        },
+        {
+            category: "PBJT Kesenian dan Hiburan",
+            2020: 150000000,
+            2021: 250000000,
+            2022: 700000000,
+            2023: 1000000000,
+            2024: 1228359175,
+            2025: 1228359175,
+        },
+        {
+            category: "Opsen Pajak Kendaraan Bermotor (PKB)",
+            2020: 0,
+            2021: 0,
+            2022: 0,
+            2023: 0,
+            2024: 0,
+            2025: 36104368986,
+        },
+        {
+            category: "Opsen Bea Balik Nama Kendaraan Bermotor (BBNKB)",
+            2020: 0,
+            2021: 0,
+            2022: 0,
+            2023: 0,
+            2024: 0,
+            2025: 27837619446,
+        },
+    ]
+
     // Transform data for charts
     const chartData = useMemo(() => {
         const years = [2020, 2021, 2022, 2023, 2024, 2025]
@@ -238,6 +379,10 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             }
             rawData.forEach((item) => {
                 yearData[item.category] = item[year] / 1000000000 // Convert to billions
+            })
+            // Add target data with a suffix to distinguish from actual data
+            targetData.forEach((item) => {
+                yearData[`${item.category} (Target)`] = item[year] / 1000000000 // Convert to billions
             })
             return yearData
         })
@@ -262,6 +407,9 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             year: item.year,
             [selectedMetric]: item[selectedMetric],
             [`${selectedMetric}_bar`]: item[selectedMetric], // Duplicate data with different key for bar
+            [`${selectedMetric} (Target)`]: item[`${selectedMetric} (Target)`], // Add target data
+            [`${selectedMetric} (Target)_bar`]:
+                item[`${selectedMetric} (Target)`], // Duplicate target data for bar
         }))
     }
 
@@ -309,11 +457,18 @@ const TaxRevenueDashboard = ({ onLogout }) => {
 
     // Custom Label Component for Bar Chart
     const CustomBarLabel = (props) => {
-        const { x, y, width, height, value, index } = props
+        const { x, y, width, height, value, index, dataKey } = props
         if (!value) return null
 
         const radius = 8
-        const labelY = y - 50
+        // Determine if this is a target data point
+        const isTarget = dataKey && dataKey.includes("Target")
+
+        // Adjust position based on whether it's target or actual data
+        // Target labels will be positioned higher than actual labels
+        // Reduced offset values to prevent labels from being cut off
+        const labelYOffset = isTarget ? 65 : 35 // Reduced from 90/50
+        const labelY = y - labelYOffset
         const labelX = x + width / 2
         const formattedValue = formatCurrencyForLabel(value)
         const textWidth = formattedValue.length * 5.5
@@ -327,13 +482,18 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             const previousData = filteredData[index - 1]
 
             // For single metric display, use the selected metric
-            if (selectedMetric) {
+            if (dataKey) {
                 percentageChange = calculatePercentageChange(
-                    currentData[selectedMetric],
-                    previousData[selectedMetric]
+                    currentData[dataKey],
+                    previousData[dataKey]
                 )
             }
         }
+
+        // Adjust colors based on data type
+        const fillColor = isTarget ? "#eff6ff" : "#fff7ed"
+        const strokeColor = isTarget ? "#2563eb" : "#f97316"
+        const textColor = isTarget ? "#1e40af" : "#9a3412"
 
         return (
             <g>
@@ -342,8 +502,8 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                     y={labelY}
                     width={rectWidth}
                     height={percentageChange !== null ? 35 : 22}
-                    fill="#fff7ed"
-                    stroke="#f97316"
+                    fill={fillColor}
+                    stroke={strokeColor}
                     strokeWidth={1}
                     rx={radius}
                     ry={radius}
@@ -352,7 +512,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                 <text
                     x={labelX}
                     y={labelY + (percentageChange !== null ? 11 : 14)}
-                    fill="#9a3412"
+                    fill={textColor}
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="12"
@@ -387,9 +547,18 @@ const TaxRevenueDashboard = ({ onLogout }) => {
         value,
         index,
         payload,
+        dataKey,
     }) => {
         const radius = 8
-        const labelY = y - 40
+
+        // Determine if this is a target data point
+        const isTarget = dataKey && dataKey.includes("Target")
+
+        // Adjust position based on whether it's target or actual data
+        // Target labels will be positioned higher than actual labels
+        // Reduced offset values to prevent labels from being cut off
+        const labelYOffset = isTarget ? 60 : 30 // Reduced from 80/40
+        const labelY = y - labelYOffset
         const labelX = x
         const formattedValue = formatCurrencyForLabel(value)
         const textWidth = formattedValue.length * 5.5
@@ -398,16 +567,23 @@ const TaxRevenueDashboard = ({ onLogout }) => {
         // Get percentage change
         let percentageChange = null
         if (index > 0 && filteredData[index - 1]) {
-            const dataKey = Object.keys(payload).find(
-                (key) => key !== "year" && payload[key] === value
-            )
-            if (dataKey && filteredData[index - 1][dataKey]) {
+            const dataKeyToUse =
+                dataKey ||
+                Object.keys(payload).find(
+                    (key) => key !== "year" && payload[key] === value
+                )
+            if (dataKeyToUse && filteredData[index - 1][dataKeyToUse]) {
                 percentageChange = calculatePercentageChange(
                     value,
-                    filteredData[index - 1][dataKey]
+                    filteredData[index - 1][dataKeyToUse]
                 )
             }
         }
+
+        // Adjust colors based on data type
+        const fillColor = isTarget ? "#eff6ff" : "#fff7ed"
+        const strokeColor = isTarget ? "#2563eb" : "#f97316"
+        const textColor = isTarget ? "#1e40af" : "#9a3412"
 
         return (
             <g>
@@ -416,8 +592,8 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                     y={labelY}
                     width={rectWidth}
                     height={percentageChange !== null ? 35 : 22}
-                    fill="#fff7ed"
-                    stroke="#f97316"
+                    fill={fillColor}
+                    stroke={strokeColor}
                     strokeWidth={1}
                     rx={radius}
                     ry={radius}
@@ -426,7 +602,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                 <text
                     x={labelX}
                     y={labelY + (percentageChange !== null ? 11 : 14)}
-                    fill="#9a3412"
+                    fill={textColor}
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="12"
@@ -474,23 +650,42 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             )
         }
 
+        // Determine if this is a target data point
+        const isTarget = dataKey && dataKey.includes("Target")
+
+        // Adjust position based on whether it's target or actual data
+        // Target labels will be positioned above, actual labels below
+        // Reduced offset values to prevent labels from being cut off
+        const labelYOffset = isTarget
+            ? percentageChange !== null
+                ? 65
+                : 50 // Target labels positioned higher (reduced from 90/70)
+            : percentageChange !== null
+            ? 35
+            : 25 // Actual labels positioned lower (reduced from 50/33)
+
+        // Adjust circle color based on data type
+        const circleColor = isTarget ? "#2563eb" : "#ea580c"
+        const strokeColor = isTarget ? "#2563eb" : "#f97316"
+        const textColor = isTarget ? "#1e40af" : "#9a3412"
+
         return (
             <g>
                 <circle
                     cx={cx}
                     cy={cy}
                     r={4}
-                    fill="#ea580c"
+                    fill={circleColor}
                     stroke="#fff"
                     strokeWidth={2}
                 />
                 <rect
                     x={cx - rectWidth / 2}
-                    y={cy - (percentageChange !== null ? 50 : 33)}
+                    y={cy - labelYOffset}
                     width={rectWidth}
                     height={percentageChange !== null ? 35 : 22}
-                    fill="#fff7ed"
-                    stroke="#f97316"
+                    fill={isTarget ? "#eff6ff" : "#fff7ed"}
+                    stroke={strokeColor}
                     strokeWidth={1}
                     rx={8}
                     ry={8}
@@ -498,8 +693,12 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                 />
                 <text
                     x={cx}
-                    y={cy - (percentageChange !== null ? 36 : 20)}
-                    fill="#9a3412"
+                    y={
+                        cy -
+                        labelYOffset +
+                        (percentageChange !== null ? 14 : 13)
+                    }
+                    fill={textColor}
                     textAnchor="middle"
                     dominantBaseline="middle"
                     fontSize="12"
@@ -510,7 +709,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                 {percentageChange !== null && (
                     <text
                         x={cx}
-                        y={cy - 22}
+                        y={cy - labelYOffset + 28}
                         fill={percentageChange >= 0 ? "#16a34a" : "#dc2626"}
                         textAnchor="middle"
                         dominantBaseline="middle"
@@ -547,7 +746,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
     const renderChart = () => {
         const commonProps = {
             data: filteredData,
-            margin: { top: 70, right: 80, left: 20, bottom: 60 },
+            margin: { top: 90, right: 80, left: 20, bottom: 60 }, // Increased top margin from 70 to 90
         }
 
         switch (selectedChart) {
@@ -619,7 +818,19 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                             stroke="#ea580c"
                             strokeWidth={4}
                             dot={<CustomDot />}
+                            name={selectedMetric}
                         />
+                        {showTargetChart && (
+                            <Line
+                                type="monotone"
+                                dataKey={`${selectedMetric} (Target)`}
+                                stroke="#2563eb"
+                                strokeWidth={4}
+                                strokeDasharray="5 5"
+                                dot={<CustomDot />}
+                                name={`${selectedMetric} (Target)`}
+                            />
+                        )}
                     </LineChart>
                 )
 
@@ -681,12 +892,26 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                             dataKey={selectedMetric}
                             fill="url(#barGradient)"
                             radius={[4, 4, 0, 0]}
+                            name={selectedMetric}
                         >
                             <LabelList
                                 dataKey={selectedMetric}
                                 content={CustomBarLabel}
                             />
                         </Bar>
+                        {showTargetChart && (
+                            <Bar
+                                dataKey={`${selectedMetric} (Target)`}
+                                fill="#2563eb"
+                                radius={[4, 4, 0, 0]}
+                                name={`${selectedMetric} (Target)`}
+                            >
+                                <LabelList
+                                    dataKey={`${selectedMetric} (Target)`}
+                                    content={CustomBarLabel}
+                                />
+                            </Bar>
+                        )}
                     </BarChart>
                 )
 
@@ -767,14 +992,36 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                             fill="url(#barGradient)"
                             radius={[4, 4, 0, 0]}
                             fillOpacity={0.7}
+                            name={selectedMetric}
                         />
+                        {showTargetChart && (
+                            <Bar
+                                dataKey={`${selectedMetric} (Target)`}
+                                fill="#2563eb"
+                                radius={[4, 4, 0, 0]}
+                                fillOpacity={0.7}
+                                name={`${selectedMetric} (Target)`}
+                            />
+                        )}
                         <Line
                             type="monotone"
                             dataKey={selectedMetric}
                             stroke="#dc2626"
                             strokeWidth={4}
                             dot={<CustomDot />}
+                            name={`${selectedMetric} (Aktual)`}
                         />
+                        {showTargetChart && (
+                            <Line
+                                type="monotone"
+                                dataKey={`${selectedMetric} (Target)`}
+                                stroke="#2563eb"
+                                strokeWidth={4}
+                                strokeDasharray="5 5"
+                                dot={<CustomDot />}
+                                name={`${selectedMetric} (Target)`}
+                            />
+                        )}
                     </ComposedChart>
                 )
 
@@ -892,31 +1139,44 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                                 ))}
                             </select>
                         </div>
+
+
                     </div>
                 </div>
 
                 {/* Main Chart */}
                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-orange-200 p-6 md:p-8 mb-6 md:mb-8 hover:shadow-3xl transition-all duration-300">
-                    <div className="flex items-center mb-6">
-                        <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full mr-4"></div>
-                        <h2 className="text-xl md:text-3xl font-bold text-orange-800">
-                            Tren Pendapatan ({selectedMetric})
-                        </h2>
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center">
+                            <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full mr-4"></div>
+                            <h2 className="text-xl md:text-3xl font-bold text-orange-800">
+                                Tren Pendapatan ({selectedMetric})
+                            </h2>
+                        </div>
+                        <button
+                            onClick={() => setShowTargetChart(!showTargetChart)}
+                            className="flex items-center justify-center px-4 py-2 bg-white border-2 border-blue-300 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-sm hover:shadow-md"
+                        >
+                            <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: showTargetChart ? "#2563eb" : "#e2e8f0" }}></div>
+                            <span className="text-sm font-medium text-blue-800">
+                                {showTargetChart ? "Sembunyikan Target" : "Tampilkan Target"}
+                            </span>
+                        </button>
                     </div>
-                    <div className="h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] rounded-xl overflow-hidden">
+                    <div className="h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] rounded-xl overflow-hidden relative">
                         <ResponsiveContainer width="100%" height="100%">
                             {renderChart()}
                         </ResponsiveContainer>
                     </div>
                 </div>
 
-                {/* Data Table */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-orange-200 overflow-hidden hover:shadow-3xl transition-all duration-300">
+                {/* Data Table - Actual */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-orange-200 overflow-hidden hover:shadow-3xl transition-all duration-300 mb-6 md:mb-8">
                     <div className="px-6 md:px-8 py-6 bg-gradient-to-r from-orange-100 to-amber-100 border-b border-orange-200">
                         <div className="flex items-center">
                             <div className="w-1 h-6 bg-gradient-to-b from-orange-500 to-amber-500 rounded-full mr-4"></div>
                             <h2 className="text-xl md:text-3xl font-bold text-orange-800">
-                                Tabel Data Mentah
+                                Tabel Data Mentah (Aktual)
                             </h2>
                         </div>
                     </div>
@@ -963,6 +1223,72 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                                             <td
                                                 key={year}
                                                 className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-orange-700 font-medium"
+                                            >
+                                                {formatCurrency(
+                                                    row[year] / 1000000000
+                                                )}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* Data Table - Target */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-blue-200 overflow-hidden hover:shadow-3xl transition-all duration-300">
+                    <div className="px-6 md:px-8 py-6 bg-gradient-to-r from-blue-100 to-indigo-100 border-b border-blue-200">
+                        <div className="flex items-center">
+                            <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full mr-4"></div>
+                            <h2 className="text-xl md:text-3xl font-bold text-blue-800">
+                                Tabel Data Mentah (Target)
+                            </h2>
+                        </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full">
+                            <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
+                                <tr>
+                                    <th className="px-4 md:px-6 py-4 text-left text-xs md:text-sm font-bold text-blue-800 uppercase tracking-wider border-b-2 border-blue-200">
+                                        Kategori
+                                    </th>
+                                    {[
+                                        2020,
+                                        2021,
+                                        2022,
+                                        2023,
+                                        2024,
+                                        "2025 (Target)",
+                                    ].map((year) => (
+                                        <th
+                                            key={year}
+                                            className="px-4 md:px-6 py-4 text-left text-xs md:text-sm font-bold text-blue-800 uppercase tracking-wider border-b-2 border-blue-200"
+                                        >
+                                            {year}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-blue-100">
+                                {targetData.map((row, index) => (
+                                    <tr
+                                        key={index}
+                                        className={`${
+                                            index % 2 === 0
+                                                ? "bg-white"
+                                                : "bg-blue-25"
+                                        } hover:bg-blue-50 transition-colors duration-200`}
+                                    >
+                                        <td className="px-4 md:px-6 py-4 text-xs md:text-sm font-semibold text-blue-900 break-words">
+                                            {row.category}
+                                        </td>
+                                        {[
+                                            2020, 2021, 2022, 2023, 2024, 2025,
+                                        ].map((year, yearIndex) => (
+                                            <td
+                                                key={year}
+                                                className="px-4 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-blue-700 font-medium"
                                             >
                                                 {formatCurrency(
                                                     row[year] / 1000000000
