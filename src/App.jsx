@@ -99,7 +99,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 129154937419.75,
             2023: 146699501670.14,
             2024: 441709437495,
-            2025: 144711552198,
+            2025: 177378511263,
         },
         {
             category: "PENDAPATAN PAJAK",
@@ -108,7 +108,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 64719735158.35,
             2023: 69895966472,
             2024: 68421168580,
-            2025: 58915517679,
+            2025: 91339071465,
         },
         {
             category: "Pajak Reklame",
@@ -117,7 +117,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 1919828959,
             2023: 1913609655,
             2024: 2156625140,
-            2025: 556673737,
+            2025: 885679939,
         },
         {
             category: "Pajak Air Tanah",
@@ -126,7 +126,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 1012700833,
             2023: 835997454,
             2024: 697867198,
-            2025: 521293734,
+            2025: 785787444,
         },
         {
             category: "Pajak Sarang Burung Walet",
@@ -135,7 +135,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 52792000,
             2023: 64125000,
             2024: 129781500,
-            2025: 26985000,
+            2025: 41635000,
         },
         {
             category: "Pajak Mineral Bukan Logam dan Batuan Lainnya",
@@ -144,7 +144,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 1159335420,
             2023: 697370281,
             2024: 1675660506,
-            2025: 1078737000,
+            2025: 1952731440,
         },
         {
             category:
@@ -154,7 +154,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 7186195995,
             2023: 8713053509,
             2024: 9127424031,
-            2025: 2485415265,
+            2025: 8251619770,
         },
         {
             category: "Pajak Bea Perolehan Hak Atas Tanah dan Bangunan / BPHTB",
@@ -163,7 +163,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 10858456459,
             2023: 12520343893,
             2024: 3790939396,
-            2025: 2768738723,
+            2025: 4027020814,
         },
         {
             category: "PBJT Makan atau minum",
@@ -172,7 +172,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 6285602900,
             2023: 5200103304,
             2024: 6576426115,
-            2025: 1942792277,
+            2025: 3390815088,
         },
         {
             category: "PBJT Tenaga Listrik",
@@ -181,7 +181,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 33470304870.35,
             2023: 36631115716,
             2024: 40352216576,
-            2025: 19830150749,
+            2025: 27465390963,
         },
         {
             category: "PBJT Perhotelan",
@@ -190,7 +190,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 1310443617,
             2023: 1398745560,
             2024: 1758307990,
-            2025: 799610067,
+            2025: 1193935931,
         },
         {
             category: "PBJT Parkir",
@@ -199,7 +199,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 830943304,
             2023: 1144664074,
             2024: 851883864,
-            2025: 388933034,
+            2025: 574942534,
         },
         {
             category: "PBJT Kesenian dan Hiburan",
@@ -208,7 +208,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 633130801,
             2023: 776838026,
             2024: 1304036264,
-            2025: 681924108,
+            2025: 989961439,
         },
         {
             category: "Opsen Pajak Kendaraan Bermotor (PKB)",
@@ -217,7 +217,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 0,
             2023: 0,
             2024: 0,
-            2025: 15289672000,
+            2025: 22826957667,
         },
         {
             category: "Opsen Bea Balik Nama Kendaraan Bermotor (BBNKB)",
@@ -226,7 +226,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 0,
             2023: 0,
             2024: 0,
-            2025: 12544591985,
+            2025: 18952593436,
         },
     ]
 
@@ -248,7 +248,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 92410000000,
             2023: 93510000000,
             2024: 93510000000,
-            2025: 150451988432,
+            2025: 134811988432,
         },
         {
             category: "Pajak Reklame",
@@ -257,7 +257,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 2000000000,
             2023: 2000000000,
             2024: 1913609655,
-            2025: 1913609655,
+            2025: 1716189000,
         },
         {
             category: "Pajak Air Tanah",
@@ -266,7 +266,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 24000000000,
             2023: 16640000000,
             2024: 16640000000,
-            2025: 16640000000,
+            2025: 900000000,
         },
         {
             category: "Pajak Sarang Burung Walet",
@@ -303,7 +303,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 8100000000,
             2023: 15000000000,
             2024: 15000000000,
-            2025: 7000000000,
+            2025: 6197420655,
         },
         {
             category: "PBJT Makan atau minum",
@@ -312,7 +312,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
             2022: 4325000000,
             2023: 4500000000,
             2024: 5400000000,
-            2025: 5400000000,
+            2025: 6500000000,
         },
         {
             category: "PBJT Tenaga Listrik",
@@ -375,7 +375,8 @@ const TaxRevenueDashboard = ({ onLogout }) => {
         const years = [2020, 2021, 2022, 2023, 2024, 2025]
         return years.map((year) => {
             const yearData = {
-                year: year === 2025 ? "2025 (Sem 1)" : year.toString(),
+                year:
+                    year === 2025 ? "2025 (s/d 10 September)" : year.toString(),
             }
             rawData.forEach((item) => {
                 yearData[item.category] = item[year] / 1000000000 // Convert to billions
@@ -1139,8 +1140,6 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                                 ))}
                             </select>
                         </div>
-
-
                     </div>
                 </div>
 
@@ -1157,9 +1156,18 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                             onClick={() => setShowTargetChart(!showTargetChart)}
                             className="flex items-center justify-center px-4 py-2 bg-white border-2 border-blue-300 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
-                            <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: showTargetChart ? "#2563eb" : "#e2e8f0" }}></div>
+                            <div
+                                className="w-3 h-3 rounded-full mr-2"
+                                style={{
+                                    backgroundColor: showTargetChart
+                                        ? "#2563eb"
+                                        : "#e2e8f0",
+                                }}
+                            ></div>
                             <span className="text-sm font-medium text-blue-800">
-                                {showTargetChart ? "Sembunyikan Target" : "Tampilkan Target"}
+                                {showTargetChart
+                                    ? "Sembunyikan Target"
+                                    : "Tampilkan Target"}
                             </span>
                         </button>
                     </div>
@@ -1193,7 +1201,7 @@ const TaxRevenueDashboard = ({ onLogout }) => {
                                         2022,
                                         2023,
                                         2024,
-                                        "2025 (Sem 1)",
+                                        "2025 ( s/d 10 September)",
                                     ].map((year) => (
                                         <th
                                             key={year}
